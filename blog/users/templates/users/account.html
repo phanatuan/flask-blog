@@ -1,0 +1,30 @@
+{% extends 'base.html' %} {% block content %}
+<div class="jumbotron">
+  <h1>Account Page</h1>
+</div>
+
+<form method="POST">
+  {{ form.hidden_tag() }}
+  <div class="form-group">
+    {{ form.username.label }}
+    {{ form.username(class='form-control') }}
+  </div>
+  <div class="form-group">
+    {{ form.email.label }}
+    {{ form.email(class='form-control') }}
+  </div>
+  {{ form.submit(class='btn btn-primary') }}
+</form>
+
+<h2>Your Favourite Post</h2>
+<ul>
+{% for favorite in favorites %}
+    <li>{{ favorite.title }} by {{favorite.author.email}} 
+      <a href="{{ url_for('posts.show_post', post_id=favorite.id )}}">View</a>
+      <a href="{{ url_for('posts.remove_favorite', post_id=favorite.id)}}">Remove</a>
+    </li>
+{% endfor %}
+</ul>
+
+
+{% endblock %}

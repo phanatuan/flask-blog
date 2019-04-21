@@ -1,0 +1,37 @@
+{% extends 'base.html' %} {% block content %}
+
+
+<div class="jumbotron">
+  <h1>Individual Blog Post</h1>
+</div>
+<h2>{{ post.title }}</h2>
+{% filter markdown %}
+{{ post.body }}
+{% endfilter %}
+<h3>Comment:</h3>
+
+<form method="POST">
+  {{ comment_form.hidden_tag() }}
+  <div class="form-group">
+    {{ comment_form.content.label }}
+    {{ comment_form.content(class='form-control') }}
+  </div>
+  {{ comment_form.submit(class='btn btn-primary') }}
+</form>
+
+<ul>
+  {% for comment in comments %}
+  <li>
+    <h5>{{ comment.author.username }}</h5>
+    {% filter markdown %}
+      {{ comment.content }}
+    {% endfilter %}
+
+    <a href="{{ url_for('comments.delete_comment', comment_id=comment.id)}}"
+      >Delete Comment</a
+    >
+  </li>
+  {% endfor %}
+</ul>
+
+{% endblock %}

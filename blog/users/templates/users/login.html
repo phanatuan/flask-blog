@@ -1,0 +1,30 @@
+{% extends 'base.html' %} {% block content %}
+<div class="jumbotron">
+  <h1>Login Page</h1>
+</div>
+<a class="btn btn-block btn-social btn-twitter">
+  <span class="fab fa-twitter"></span>
+  Sign in with Twitter
+</a>
+<a class="btn btn-block btn-social btn-google" href="{{ url_for('google.google_login')}}">
+  <span class="fab fa-google"></span>
+  Sign in with Google
+</a>
+<a class="btn btn-block btn-social btn-facebook">
+  <span class="fab fa-facebook"></span>
+  Sign in with Facebook
+</a>
+
+<form method="POST">
+  {{ form.hidden_tag() }}
+  <div class="form-group">
+    {{ form.email.label }}
+    {{ form.email(class='form-control') }}
+  </div>
+  <div class="form-group">
+    {{ form.password.label }}
+    {{ form.password(class='form-control') }}
+  </div>
+  {{ form.submit(class='btn btn-primary') }}
+</form>
+{% endblock %}

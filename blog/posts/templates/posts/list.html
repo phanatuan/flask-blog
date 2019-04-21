@@ -1,0 +1,95 @@
+{% extends 'base.html' %} {% block content %}
+
+<div class="jumbotron">
+  <h1>List of Post</h1>
+</div>
+
+<div class="row">
+  <div class="col-4">
+    <h1>Sidebar</h1>
+  </div>
+  <div class="col-8">
+    <div class="row">
+      {% for post in posts %}
+      <div class="col-6">
+        <div class="card mb-2 shadow">
+          <div class="card-body">
+            <h5 class="card-title">{{ post.title }}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">
+              Written by {{ post.author.email }}
+            </h6>
+            <div>
+              {% filter markdown %}
+                {{ post.body }}
+              {% endfilter %}
+            </div>
+            <a
+              href="{{ url_for('posts.show_post', post_id= post.id) }}"
+              class="btn btn-primary"
+              >View Post</a
+            >
+            <a
+              href="{{ url_for('posts.add_favorite', post_id=post.id) }}"
+              class="btn btn-info"
+              >Favorite Post</a
+            >
+            {% if post.author == current_user %}
+            <a
+              href="{{ url_for('posts.edit', post_id=post.id) }}"
+              class="btn btn-primary"
+              >Edit Post</a
+            >
+            <a
+              href="{{ url_for('posts.delete', post_id=post.id) }}"
+              class="btn btn-danger"
+              >Delete Post</a
+            >
+            
+            {% endif %}
+          </div>
+        </div>
+      </div>
+
+      <!-- For Modal Display Only -->
+      <div class="modal" tabindex="-1" role="dialog" id="del-modal">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Confirm Delete</h5>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p>Sure to delete bro?</p>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-dismiss="modal"
+              >
+                Close
+              </button>
+              <a
+                href="{{ url_for('posts.delete', post_id=post.id) }}"
+                class="btn btn-danger"
+                >Delete</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- For Modal Display Only -->
+
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% endblock %}
